@@ -49,8 +49,8 @@ JSpace 默认只监听 `127.0.0.1`。原始对话、实验结果和 PDF 都是�
 要求：Windows PowerShell、Python 3.11+。运行时仅使用 Python 标准库；执行测试需要 `pytest`。
 
 ```powershell
-git clone https://github.com/kizzhang/jspace-workbench.git
-cd jspace-workbench
+git clone https://github.com/kizzhang/Jspace.git
+cd Jspace
 
 # 指向需要整理的研究目录
 .\tools\research_workbench\launch.ps1 -Workspace "E:\path\to\your-research-workspace"
@@ -75,6 +75,17 @@ $env:JSPACE_WORKSPACE = "E:\path\to\your-research-workspace"
 # 直接运行 Python 入口
 python .\tools\research_workbench\app.py --workspace "E:\research" --port 7333
 ```
+
+## 每日自动更新
+
+每日整理的唯一必需动作是运行 `daily_sync.ps1`。推荐让定时任务或 AI agent 调用这个确定性脚本，再由 agent 检查退出码、汇报同步结果，并且只在失败时诊断工作台本身。
+
+Codex 桌面端可以用 **Scheduled** 在本地项目中每天运行；Codex CLI 可以用 `codex exec` 接入 Windows Task Scheduler、cron 或 CI；其他 agent 也可以复用同一份任务契约。完整配置、可复制提示词、Windows 计划任务示例、权限边界和故障排查见：
+
+- [每日自动更新完整指南](./docs/AUTOMATION.md)
+- [可直接复制的 Agent Prompt](./docs/prompts/daily-sync-agent.md)
+
+对于本地研究目录，优先选择“本地项目”而不是临时 worktree，并让任务以拥有这些加密文件访问权的同一系统用户运行。成功同步只允许更新工作台 `.data/` 索引与当日日报，不修改原始对话、实验结果或 PDF，也不启动实验。
 
 ## JSpace 会读取什么
 
