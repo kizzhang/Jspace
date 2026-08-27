@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>JSpace · 科研工作台</title>
+    <link rel="stylesheet" href="/static/vendor/katex/katex.min.css" />
+    <link rel="stylesheet" href="/static/styles.css?v=20260826d" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">J</div>
+          <div><strong>JSpace</strong><span>思考与研究记忆</span></div>
+          <i class="local-indicator" title="仅保存在本机"></i>
+        </div>
+
+        <nav aria-label="主导航">
+          <p class="nav-caption">工作台</p>
+          <button class="nav-item active" data-view="today" aria-current="page"><span class="nav-glyph" aria-hidden="true">⌂</span><span>每日简报</span></button>
+          <button class="nav-item" data-view="conversations"><span class="nav-glyph" aria-hidden="true">◌</span><span>研究对话</span></button>
+          <p class="nav-caption">研究资产</p>
+          <button class="nav-item" data-view="experiments"><span class="nav-glyph" aria-hidden="true">◇</span><span>实验记录</span></button>
+          <button class="nav-item" data-view="literature"><span class="nav-glyph" aria-hidden="true">▤</span><span>文献资料</span></button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="sync-state"><i></i><span id="sync-label">尚未同步</span></div>
+          <button class="quiet-button" id="sync-button">同步记录</button>
+          <p>仅保存在本机</p>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div class="page-context">
+            <div class="breadcrumb"><span id="view-eyebrow">JSpace</span><i>/</i><strong id="view-title">每日简报</strong></div>
+            <p>本地科研索引与决策记录</p>
+          </div>
+          <div class="header-actions">
+            <label class="search-box">
+              <span>⌕</span>
+              <input id="global-search" type="search" placeholder="搜索对话、实验或论文" />
+              <kbd>Enter</kbd>
+            </label>
+            <button class="primary-button" id="add-paper-button"><span aria-hidden="true">＋</span>添加文献</button>
+          </div>
+        </header>
+
+        <section class="view active" id="view-today">
+          <div class="briefing-heading">
+            <div><p class="section-kicker">每日简报</p><h2>今日研究简报</h2><p>按结论、实验和研究路径整理</p></div>
+            <div class="date-navigation" aria-label="日报日期">
+              <button id="previous-day" type="button" aria-label="前一天">←</button>
+              <span class="date-chip" id="today-date"></span>
+              <button id="next-day" type="button" aria-label="后一天">→</button>
+            </div>
+          </div>
+
+          <div class="briefing-hero">
+            <article class="insight-card">
+              <div class="insight-label"><span></span>TL;DR</div>
+              <div class="digest-lead" id="digest-body"><div class="skeleton wide"></div><div class="skeleton"></div></div>
+              <div id="digest-keywords"></div>
+            </article>
+            <aside class="metric-panel">
+              <div class="metric-heading"><span>项目统计</span><strong id="sync-label-secondary">本地索引</strong></div>
+              <div class="metric-grid">
+                <div><strong id="stat-experiments">—</strong><span>实验</span></div>
+                <div><strong id="stat-sessions">—</strong><span>对话</span></div>
+                <div><strong id="stat-papers">—</strong><span>文献</span></div>
+              </div>
+              <p class="pulse-note" id="pulse-note">正在读取当前仓库…</p>
+            </aside>
+          </div>
+
+          <div class="briefing-sections">
+            <section class="brief-section results-brief"><div class="brief-section-heading"><div><span>01</span><h3>结果</h3></div><p>结论与下一步</p></div><div id="digest-results" class="brief-list"></div></section>
+            <section class="brief-section experiments-brief"><div class="brief-section-heading"><div><span>02</span><h3>实验</h3></div><p>状态与证据</p></div><div id="digest-experiments" class="brief-list"></div></section>
+            <section class="brief-section research-brief"><div class="brief-section-heading"><div><span>03</span><h3>调研</h3></div><p>问题与研究路径</p></div><div id="digest-research" class="brief-list"></div></section>
+          </div>
+
+          <details class="digest-note-panel">
+            <summary>添加个人判断或下一步</summary>
+            <label class="note-field"><span>个人备注</span><textarea id="digest-note" rows="3" placeholder="记录判断、疑点或下一步"></textarea></label>
+            <div class="card-footer"><span id="digest-save-state">仅保存在本机</span><button class="text-button" id="save-digest">保存备注</button></div>
+          </details>
+
+          <div class="section-heading"><div><h2>最近对话</h2></div><button class="text-button jump" data-view="conversations">查看全部 →</button></div>
+          <div class="activity-list" id="recent-sessions"></div>
+
+          <div class="split-row">
+            <section>
+              <div class="section-heading"><div><h2>最近实验</h2></div><button class="text-button jump" data-view="experiments">查看全部 →</button></div>
+              <div class="stack-list" id="recent-experiments"></div>
+            </section>
+            <section>
+              <div class="section-heading"><div><h2>研究文档</h2></div></div>
+              <div class="document-list" id="key-docs"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-conversations">
+          <div class="control-row">
+            <div class="segmented" id="provider-filter">
+              <button class="active" data-value="">全部</button><button data-value="codex">Codex</button><button data-value="claude">Claude Code</button>
+            </div>
+            <span class="result-count" id="session-count"></span>
+          </div>
+          <div class="master-detail">
+            <div class="record-list" id="session-list"></div>
+            <article class="detail-panel" id="session-detail">
+              <div class="empty-state"><span aria-hidden="true">◌</span><h3>选择一段对话</h3><p>选择左侧记录查看内容。</p></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-experiments">
+          <div class="control-row">
+            <div class="segmented" id="experiment-filter">
+              <button class="active" data-value="">全部</button><button data-value="settled">已结论</button><button data-value="results">有结果</button><button data-value="planned">计划中</button>
+            </div>
+            <span class="result-count" id="experiment-count"></span>
+          </div>
+          <div class="experiment-grid" id="experiment-list"></div>
+        </section>
+
+        <section class="view" id="view-literature">
+          <div class="literature-intro">
+            <div><h2>文献库</h2><p><span id="paper-count">正在整理…</span> · 按 DOI、arXiv、PDF 指纹或标题去重</p></div>
+            <div class="legend"><span><i class="dot inbox"></i>待阅读</span><span><i class="dot reading"></i>阅读中</span><span><i class="dot read"></i>已读</span></div>
+          </div>
+          <div class="literature-layout">
+            <div class="paper-list" id="paper-list"></div>
+            <article class="detail-panel pdf-panel" id="paper-detail">
+              <div class="empty-state"><span aria-hidden="true">▤</span><h3>选择一篇文献</h3><p>点击左侧条目查看摘要、PDF 与原文入口。</p></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="paper-dialog">
+      <form id="paper-form">
+        <div class="dialog-heading"><div><p class="eyebrow">文献</p><h2>添加文献</h2></div><button type="button" class="icon-button" id="close-paper-dialog" aria-label="关闭">×</button></div>
+        <label><span>DOI、arXiv 链接或标题</span><input id="paper-identity" autofocus placeholder="10.1038/... 或 https://arxiv.org/abs/..." /></label>
+        <label><span>本地 PDF 路径 <em>可选</em></span><input id="paper-path" placeholder="E:\Papers\paper.pdf" /></label>
+        <label><span>简短备注 <em>可选</em></span><textarea id="paper-note" rows="3" placeholder="为什么值得读？和哪个实验有关？"></textarea></label>
+        <p class="form-error" id="paper-form-error"></p>
+        <div class="dialog-actions"><button type="button" class="quiet-button" id="cancel-paper-dialog">取消</button><button class="primary-button" type="submit">添加</button></div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="/static/vendor/marked/marked.umd.js"></script>
+    <script src="/static/vendor/dompurify/purify.min.js"></script>
+    <script src="/static/vendor/katex/katex.min.js"></script>
+    <script src="/static/vendor/katex/auto-render.min.js"></script>
+    <script src="/static/app.js?v=20260826f"></script>
+  </body>
+</html>

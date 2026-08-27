@@ -1,0 +1,33 @@
+# Local research state
+**/.data/
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.db
+*.jsonl
+*.pdf
+
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+
+# Python
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated output
+dist/
+build/
+*.log
