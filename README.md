@@ -6,9 +6,9 @@
 
 <p align="center"><strong>A local-first thinking workspace for the output before the output.</strong></p>
 
-JSpace 把散落在 AI 对话、实验目录、论文与每日工作痕迹里的研究过程，整理成一层可搜索、可回溯的研究记忆。它关注的不只是最终产物，更是产物出现之前的东西：尚未写进论文的判断、失败实验留下的约束、调研形成的直觉，以及人与模型共同推演时产生的隐性知识。
+**JSpace 科研工作台** 把散落在 AI 对话、实验目录、论文与每日工作痕迹里的研究过程，整理成一层可搜索、可回溯的研究记忆。它关注的不只是最终产物，更是产物出现之前的东西：尚未写进论文的判断、失败实验留下的约束、调研形成的直觉，以及人与模型共同推演时产生的隐性知识。
 
-这个工作台是独立项目，并非 Anthropic 官方产品，也不代表 Anthropic 的背书。`JSpace` 这个名字承接相关研究语境；这里的实现专注于个人、本地优先的 thinking / tacit knowledge workspace。
+**声明**：这个工作台是独立项目，并非 Anthropic 官方产品，也不代表 Anthropic 的背书。`JSpace` 这个名字承接相关研究语境，AI模型有一个 *workspace* 来思考信息；**JSpace 科研工作台** 则是实现专注于个人科研思考和发现过程的管理。希望你能够把项目的 *workspace memory* 最终通过 *unembedding* 解出顶刊顶会！
 
 ## 为什么需要它
 
