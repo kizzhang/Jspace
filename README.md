@@ -2,7 +2,7 @@
   <img src="docs/assets/jspace-logo.png" alt="JSpace logo" width="280" />
 </p>
 
-<h1 align="center">JSpace</h1>
+<h1 align="center">JSpace：面向 AI native 的科研工作者的科研管理工具</h1>
 
 <p align="center"><strong>A local-first thinking workspace for the output before the output.</strong></p>
 
